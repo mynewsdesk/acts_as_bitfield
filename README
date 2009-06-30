@@ -1,0 +1,12 @@
+acts_as_bitfield
+=========
+This is a Rails 2.3 compatible fork of the acts_as_bitfield plugin by Gabriel Gironda from:
+
+http://code.helicoid.net/svn/rails/plugins/acts_as_bitfield
+
+The Rails 2.3 compatibility was achieved by changing construct_conditions_from_arguments to invoke attribute_conditions with two arguments instead of one.
+
+Peter marklund
+
+http://developer.newsdesk.se
+http://marklunds.com
