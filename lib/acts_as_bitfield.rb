@@ -67,9 +67,9 @@ module Helicoid
 
           # define the method to set the field value
           define_method(:"#{field.to_s}=") do |v|
-            if [true, '1', 1, 't'].include? v
+            if ActiveRecord::ConnectionAdapters::Column::TRUE_VALUES.include? v
               self[column] = (self[column] || 0) | value.first
-            elsif [false, '0', 0, 'f'].include? v
+            elsif ActiveRecord::ConnectionAdapters::Column::FALSE_VALUES.include? v
               self[column] = (self[column] || 0) &~ value.first
             end
           end
@@ -84,8 +84,8 @@ module Helicoid
           attribute_names.all? { |name| attrs.include?(name.to_sym) }
         end
 
-        # also requires a new construct_conditions_from_arguments
-        def construct_conditions_from_arguments(attribute_names, arguments)
+        # also requires a new construct_attributes_from_arguments
+        def construct_attributes_from_arguments(attribute_names, arguments)
           conditions = []
           if attribute_names.find { |a| self.bitfield_attrs[a.to_sym] }
             attribute_names, arguments, bitwise_conditions = construct_bitwise_conditions(attribute_names, arguments)
