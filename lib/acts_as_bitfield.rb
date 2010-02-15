@@ -86,8 +86,12 @@ module Helicoid
 
         # also requires a new construct_attributes_from_arguments
         def construct_attributes_from_arguments(attribute_names, arguments)
+          has_bitfield_attribute = attribute_names.find { |a| self.bitfield_attrs[a.to_sym] }
+          # Fallback on the ActiveRecord::Base definition if there are no bitfield attributes
+          # This avoids breakage of dynamic finders with exclamation mark.
+          return super unless has_bitfield_attribute 
           conditions = []
-          if attribute_names.find { |a| self.bitfield_attrs[a.to_sym] }
+          if has_bitfield_attribute
             attribute_names, arguments, bitwise_conditions = construct_bitwise_conditions(attribute_names, arguments)
             conditions << bitwise_conditions
           end
